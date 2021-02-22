@@ -1,30 +1,44 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div id="app">
+    <my-header>星座物语</my-header>
+    <NavBar></NavBar>
+    <router-view v-slot="{Component}">
+      <keep-alive>
+        <component :is="Component"></component>
+      </keep-alive>
+    </router-view>
+    <tab></tab>
   </div>
-  <router-view/>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import MyHeader from "comps/Header/index.vue";
+import Tab from 'comps/Tab/index.vue';
 
-#nav {
-  padding: 30px;
+import {useStore} from "vuex";
+import {useRouter} from "vue-router";
+import {watch} from "vue";
+import NavBar from "comps/NavBar/index.vue";
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+
+export default {
+  name:'App',
+  components: {MyHeader,Tab,NavBar},
+  setup(){
+    const store = useStore(),state = store.state,
+
+          router = useRouter();
+
+    router.push('/');
+    store.commit('setField','today');
+
+    watch(()=>{
+      return router.currentRoute.value.name;
+    },(value) => {
+      store.commit('setField',value);
+    })
   }
 }
-</style>
+</script>
+
