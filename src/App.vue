@@ -1,44 +1,52 @@
 <template>
   <div id="app">
     <my-header>星座物语</my-header>
-    <NavBar></NavBar>
-    <router-view v-slot="{Component}">
+    <NavBar />
+    <ErrorTip />
+    <router-view v-slot="{ Component }" v-if="!errorCode">
       <keep-alive>
-        <component :is="Component"></component>
+        <component :is="Component" />
       </keep-alive>
     </router-view>
-    <tab></tab>
+    <tab />
   </div>
 </template>
 
 <script>
-import MyHeader from "comps/Header/index.vue";
-import Tab from 'comps/Tab/index.vue';
+import MyHeader from '@/components/Header';
+import Tab from '@/components/Tab';
+import NavBar from '@/components/NavBar';
+import ErrorTip from '@/components/ErrorTip';
 
-import {useStore} from "vuex";
-import {useRouter} from "vue-router";
-import {watch} from "vue";
-import NavBar from "comps/NavBar/index.vue";
-
-
+import { watch, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
-  name:'App',
-  components: {MyHeader,Tab,NavBar},
-  setup(){
-    const store = useStore(),state = store.state,
-
-          router = useRouter();
+  name: 'App',
+  components: {
+    MyHeader,
+    Tab,
+    NavBar,
+    ErrorTip
+  },
+  setup () {
+    const store = useStore(),
+        state = store.state,
+        router = useRouter();
 
     router.push('/');
-    store.commit('setField','today');
+    store.commit('setField', 'today');
 
-    watch(()=>{
+    watch(() => {
       return router.currentRoute.value.name;
-    },(value) => {
-      store.commit('setField',value);
-    })
+    }, (value) => {
+      store.commit('setField', value);
+    });
+    // console.log(state.errorCode)
+    return {
+      errorCode: computed(() => state.errorCode)
+    }
   }
 }
 </script>
-

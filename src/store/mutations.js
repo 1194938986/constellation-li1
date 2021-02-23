@@ -10,5 +10,6 @@ export default {
     },
     setData(state,data){
         state[state.field] = data;
+        // console.log(state)
     }
 }

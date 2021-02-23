@@ -1,24 +1,24 @@
 <template>
   <div class="card">
-    <div class="warpper">
+    <div class="wrapper">
       <img
-          :src="require(`../../assets/img/${name || '白羊座'}.jpg`)" :alt="name"
+          :src="require(`../../assets/img/${name || '白羊座'}.jpg`)"
+          :alt="name"
       />
       <div class="mask">
-        <h1>{{name || '白羊座'}}</h1>
-        <p v-if="allIndex">综合指数：{{allIndex || 0}}</p>
+        <h1>{{ name || '白羊座' }}</h1>
+        <p v-if="allIndex">综合指数：{{ allIndex || 0 }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'ConsCard',
   props: {
     name: String,
-    allIndex: String || Number
+    allIndex: String | Number
   }
 }
 </script>

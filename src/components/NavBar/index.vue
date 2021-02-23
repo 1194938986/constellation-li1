@@ -1,60 +1,66 @@
 <template>
-  <div class="nav-bar" v-nav-current="{
-    className:'nav-item',
-    activeClass:'nav-current',
-    curIdx
-  }"
-    @click="navClick($event)"
+  <div
+      class="nav-bar"
+      v-nav-current="{
+      className: 'nav-item',
+      activeClass: 'nav-current',
+      curIdx
+    }"
+      @click="navClick($event)"
   >
     <div class="scroll-wrapper">
       <div class="nav-wrapper" :style="`width: ${navData.length * .8}rem`">
         <nav-item
-            v-for="(item,index) of navData"
+            v-for="(item, index) of navData"
             :key="index"
             :item="item"
             :index="index"
         />
-<!--        :curIdx="curIdx"-->
-        <!--          @navClick="navClick"-->
       </div>
     </div>
   </div>
 </template>
 
-<script >
+<script>
+
 import navData from '@/datas/nav';
-import NavItem from './Item.vue'
-import {ref} from 'vue'
-import {navCurrent} from '@/directives'
-import {useStore} from 'vuex'
+
+import NavItem from './Item';
+
+import { ref } from 'vue';
+import { useStore } from 'vuex';
+
+import { navCurrent } from '@/directives';
+import getData from '@/services';
 
 export default {
-  name: "NavBar",
-  components:{
+  name: 'NavBar',
+  components: {
     NavItem
   },
-  directives:{
+  directives: {
     navCurrent
   },
-  setup(){
+  setup () {
+
     const curIdx = ref(0),
-          store = useStore()
+        store = useStore();
+
     const navClick = (e) => {
-      // curIdx.value = index
       const className = e.target.className;
 
-      if(className === `nav-item`)
-      {
+      if (className === 'nav-item') {
         const tar = e.target,
-              idx = tar.dataset.index,
-              consName = tar.innerText;
-        curIdx.value = idx;
-        store.commit('setConsName',consName)
+            idx = tar.dataset.index,
+            consName = tar.innerText;
 
-        // console.log(store.state.consName);
+        curIdx.value = idx;
+        store.commit('setConsName', consName);
+        getData(store);
       }
     }
-    return{
+
+    return {
       navData,
       curIdx,
       navClick
@@ -83,7 +89,7 @@ export default {
     .nav-wrapper {
       display: flex;
       flex-direction: row;
-      height: .36rem;
+      height: .42rem;
     }
   }
 }
