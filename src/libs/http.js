@@ -1,9 +1,9 @@
 import axios from "axios";
 
-import {JUHE_APPKEY} from '../configs/keys';
+import {JUHE_APPKEY,VUE_APP_URL} from '../configs/keys';
 
 function axoisGet(options){
-    axios(options.url + '&key=' + JUHE_APPKEY)
+    axios(VUE_APP_URL + options.url + '&key=' + JUHE_APPKEY)
         .then((res) =>{
 
             options.success(res.data);
